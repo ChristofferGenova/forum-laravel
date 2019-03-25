@@ -8,6 +8,10 @@
         replies="{{ __('Replies') }}"
         action="{{ __('Action') }}"
         open="{{ __('Open') }}"
+        new-thread="{{ __('New Thread') }}"
+        name-title="{{ __('Title Thread') }}"
+        body="{{ __('Body') }}"
+        submit="{{ __('Submit') }}"
     >
         @include('layouts.default.preloader')
     </threads>
