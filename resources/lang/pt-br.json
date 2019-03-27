@@ -14,5 +14,21 @@
     "Title Thread": "Título do Tópico",
     "Body": "Corpo",
     "Edit": "Editar",
-    "Back": "Voltar"
+    "Back": "Voltar",
+    "Verify Your Email Address": "Verifique seu endereço de e-mail",
+    "A fresh verification link has been sent to your email address.": "Um novo link de verificação foi enviado para o seu endereço de e-mail.",
+    "Before proceeding, please check your email for a verification link.": "Antes de prosseguir, verifique seu e-mail em busca de um link de verificação.",
+    "If you did not receive the email": "Se você não recebeu o email",
+    "click here to request another": "clique aqui para solicitar outro",
+    "Register": "Registrar",
+    "Forgot Your Password?": "Esqueceu sua senha?",
+    "Reset Password": "Redefinir Senha",
+    "Send Password Reset Link": "Enviar o link de redefinição de senha",
+    "Password": "Senha",
+    "E-Mail Address": "Endereço de e-mail",
+    "Login with Github": "Faça o login com o Github",
+    "Confirm Password": "Confirmar Senha",
+    "Name": "Nome",
+    "Sign up": "Inscrever-se",
+    "Pin": "Fixar"
 }

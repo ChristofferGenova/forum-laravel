@@ -82,7 +82,16 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    var _this3 = this;
+
     this.getThreads();
+    Echo.channel('new.thread').listen('NewThread', function (e) {
+      console.log(e);
+
+      if (e.thread) {
+        _this3.threads_response.data.splice(0, 0, e.thread);
+      }
+    });
   }
 });
 
@@ -596,7 +605,7 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(thread.title))]),
               _vm._v(" "),
-              _c("td", [_vm._v("0")]),
+              _c("td", [_vm._v(_vm._s(thread.replies_count))]),
               _vm._v(" "),
               _c("td", [
                 _c("a", { attrs: { href: "/threads/" + thread.id } }, [

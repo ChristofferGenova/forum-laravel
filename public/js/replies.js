@@ -39,40 +39,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['replied', 'reply', 'yourAnswer', 'submit']
+  props: ['replied', 'reply', 'yourAnswer', 'submit', 'threadId'],
+  data: function data() {
+    return {
+      replies: [],
+      logged: window.user || {},
+      thread_id: this.threadId,
+      reply_to_save: {
+        body: '',
+        thread_id: this.threadId
+      }
+    };
+  },
+  methods: {
+    save: function save() {
+      var _this = this;
+
+      window.axios.post('/replies', this.reply_to_save).then(function () {
+        _this.getReplies();
+      });
+    },
+    getReplies: function getReplies() {
+      var _this2 = this;
+
+      window.axios.get('/replies/' + this.thread_id).then(function (response) {
+        _this2.replies = response.data;
+      });
+    }
+  },
+  mounted: function mounted() {
+    var _this3 = this;
+
+    this.getReplies();
+    Echo.channel('new.reply.' + this.thread_id).listen('NewReply', function (e) {
+      console.log(e);
+
+      if (e.reply) {
+        _this3.getReplies();
+      }
+    });
+  }
 });
 
 /***/ }),
@@ -560,76 +567,98 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-content" }, [
-        _c("span", { staticClass: "card-title" }, [
-          _vm._v("Christoffer " + _vm._s(_vm.replied))
-        ]),
-        _vm._v(" "),
-        _c("blockquote", [
-          _vm._v(
-            "\n                Proin ut massa tempor, sagittis enim non, tempus arcu.\n                Sed faucibus pharetra auctor. Ut tellus massa, sagittis et efficitur ut, semper et dui.\n                Duis varius purus nec enim finibus pretium. Pellentesque eu pellentesque libero. Vivamus\n                nec neque sed risus mattis commodo id vitae leo. Praesent sagittis gravida tortor, a ultrices\n                neque hendrerit vitae. Curabitur tempor lacus vitae erat feugiat pretium. Cras tellus orci,\n                vehicula vel viverra sed, porttitor ac orci. Integer id magna vel sem semper luctus in sed urna.\n            "
-          )
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-content" }, [
-        _c("span", { staticClass: "card-title" }, [
-          _vm._v("Christoffer " + _vm._s(_vm.replied))
-        ]),
-        _vm._v(" "),
-        _c("blockquote", [
-          _vm._v(
-            "\n                Proin ut massa tempor, sagittis enim non, tempus arcu.\n                Sed faucibus pharetra auctor. Ut tellus massa, sagittis et efficitur ut, semper et dui.\n                Duis varius purus nec enim finibus pretium. Pellentesque eu pellentesque libero. Vivamus\n                nec neque sed risus mattis commodo id vitae leo. Praesent sagittis gravida tortor, a ultrices\n                neque hendrerit vitae. Curabitur tempor lacus vitae erat feugiat pretium. Cras tellus orci,\n                vehicula vel viverra sed, porttitor ac orci. Integer id magna vel sem semper luctus in sed urna.\n            "
-          )
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-content" }, [
-        _c("span", { staticClass: "card-title" }, [
-          _vm._v("Christoffer " + _vm._s(_vm.replied))
-        ]),
-        _vm._v(" "),
-        _c("blockquote", [
-          _vm._v(
-            "\n                Proin ut massa tempor, sagittis enim non, tempus arcu.\n                Sed faucibus pharetra auctor. Ut tellus massa, sagittis et efficitur ut, semper et dui.\n                Duis varius purus nec enim finibus pretium. Pellentesque eu pellentesque libero. Vivamus\n                nec neque sed risus mattis commodo id vitae leo. Praesent sagittis gravida tortor, a ultrices\n                neque hendrerit vitae. Curabitur tempor lacus vitae erat feugiat pretium. Cras tellus orci,\n                vehicula vel viverra sed, porttitor ac orci. Integer id magna vel sem semper luctus in sed urna.\n            "
-          )
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card grey lighten-4" }, [
-      _c("div", { staticClass: "card-content" }, [
-        _c("span", { staticClass: "card-title" }, [_vm._v(_vm._s(_vm.reply))]),
-        _vm._v(" "),
-        _c("form", { attrs: { action: "" } }, [
-          _c("div", { staticClass: "input-field" }, [
-            _c("textarea", {
-              staticClass: "materialize-textarea",
-              attrs: {
-                name: "",
-                id: "",
-                cols: "30",
-                rows: "10",
-                placeholder: _vm.yourAnswer
-              }
-            })
+  return _c(
+    "div",
+    [
+      _vm._l(_vm.replies, function(data) {
+        return _c(
+          "div",
+          {
+            staticClass: "card",
+            class: { "lime lighten-4": data.highlighted }
+          },
+          [
+            _c("div", { staticClass: "card-content" }, [
+              _c("span", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(data.user.name) + " " + _vm._s(_vm.replied))
+              ]),
+              _vm._v(" "),
+              _c("blockquote", [
+                _vm._v(
+                  "\n                " + _vm._s(data.body) + "\n            "
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _vm.logged.role === "admin"
+              ? _c("div", { staticClass: "card-action" }, [
+                  _c("a", { attrs: { href: "/reply/highligth/" + data.id } }, [
+                    _vm._v("Pin")
+                  ])
+                ])
+              : _vm._e()
+          ]
+        )
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "card grey lighten-4" }, [
+        _c("div", { staticClass: "card-content" }, [
+          _c("span", { staticClass: "card-title" }, [
+            _vm._v(_vm._s(_vm.reply))
           ]),
           _vm._v(" "),
           _c(
-            "button",
-            { staticClass: "btn red accent-2", attrs: { type: "submit" } },
-            [_vm._v(_vm._s(_vm.submit))]
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.save()
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "input-field" }, [
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.reply_to_save.body,
+                      expression: "reply_to_save.body"
+                    }
+                  ],
+                  staticClass: "materialize-textarea",
+                  attrs: {
+                    id: "idInputYourAnswer",
+                    cols: "30",
+                    rows: "10",
+                    placeholder: _vm.yourAnswer
+                  },
+                  domProps: { value: _vm.reply_to_save.body },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.reply_to_save, "body", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                { staticClass: "btn red accent-2", attrs: { type: "submit" } },
+                [_vm._v(_vm._s(_vm.submit))]
+              )
+            ]
           )
         ])
       ])
-    ])
-  ])
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -16,7 +16,7 @@
                 <tr v-for="thread in threads_response.data">
                     <td>{{ thread.id }}</td>
                     <td>{{ thread.title }}</td>
-                    <td>0</td>
+                    <td>{{ thread.replies_count }}</td>
                     <td>
                         <a :href="'/threads/' + thread.id">{{ open }}</a>
                     </td>
@@ -79,6 +79,12 @@
         },
         mounted() {
             this.getThreads();
+            Echo.channel('new.thread').listen('NewThread', (e) => {
+                    console.log(e);
+                    if (e.thread) {
+                        this.threads_response.data.splice(0, 0, e.thread);
+                    }
+            });
         }
     }
 </script>
