@@ -22,7 +22,7 @@ class PhotoUserObserver
         Storage::delete($user->photo);
     }
 
-    public function updating(USer $user)
+    public function updating(User $user)
     {
         if (is_a($user->photo, UploadedFile::class) and $user->photo->isValid()) {
             $previous_image = $user->getOriginal('photo');
@@ -48,7 +48,7 @@ class PhotoUserObserver
         $name = 'avatars/' . $name;
 
         // Salvar imagem real
-//        $user->photo->storeAs('', $name);
+        //$user->photo->storeAs('', $name);
 
         // Redimensiona
         $img = Image::make($user->photo->getRealPath());

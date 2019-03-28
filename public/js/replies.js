@@ -1264,7 +1264,7 @@ var render = function() {
                         id: "btnBestAnswer"
                       }
                     },
-                    [_vm._v(_vm._s(_vm.bestAwnser))]
+                    [_vm._v(_vm._s(_vm.bestAnswer))]
                   )
                 ])
               : _vm._e()

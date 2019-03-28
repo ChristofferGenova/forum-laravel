@@ -16,7 +16,7 @@
             </div>
 
             <div class="card-action" v-if="logged.role === 'admin'">
-                <a :href="'/reply/highligth/' + data.id" id="btnBestAnswer">{{ bestAwnser }}</a>
+                <a :href="'/reply/highligth/' + data.id" id="btnBestAnswer">{{ bestAnswer }}</a>
             </div>
         </div>
 
