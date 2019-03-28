@@ -39,6 +39,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/replies', 'RepliesController@store');
     Route::get('/reply/highligth/{id}', 'RepliesController@highligth');
 
+    Route::get('/profile', 'ProfileController@edit');
+    Route::post('/profile', 'ProfileController@update');
+
+    Route::get('/thread/pin/{thread}', 'ThreadsController@pin');
+    Route::get('/thread/close/{thread}', 'ThreadsController@close');
+
 });
 
 Auth::routes();

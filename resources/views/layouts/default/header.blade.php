@@ -31,7 +31,10 @@
                 <ul class="right">
                     @if (\Auth::user())
                         <li>
-                            <a href="#" data-target="user" class="dropdown-button dropdown-trigger">{{ \Auth::user()->name }}</a>
+                            <a href="#" data-target="user" class="dropdown-button dropdown-trigger">
+                                <img src="/thumb/{{\Auth::user()->photo}}" style="border-radius: 100%; width: 50px; height: 50px" align="middle">
+                                {{ \Auth::user()->name }}
+                            </a>
                         </li>
                     @else
                         <li>

@@ -18,6 +18,7 @@ class CreateThreadsTable extends Migration
             $table->string('title');
             $table->text('body');
             $table->boolean('fixed')->default(false);
+            $table->boolean('closed')->default(false);
             $table->integer('user_id')->unsigned();
             $table->integer('replies_count')->unsigned()->default(0);
             $table->timestamps();

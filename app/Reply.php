@@ -11,4 +11,9 @@ class Reply extends Model
     {
         return $this->belongsTo(\App\User::class);
     }
+
+    public function thread()
+    {
+        return $this->belongsTo(\App\Thread::class);
+    }
 }

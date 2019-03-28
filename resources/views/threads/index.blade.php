@@ -12,6 +12,9 @@
         name-title="{{ __('Title Thread') }}"
         body="{{ __('Body') }}"
         submit="{{ __('Submit') }}"
+        pin="{{ __('Pin') }}"
+        thread-fixed="{{ __('Thread Fixed') }}"
+        close="{{ __('Close') }}"
     >
         @include('layouts.default.preloader')
     </threads>

@@ -54,11 +54,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['title', 'threads', 'replies', 'action', 'open', 'newThread', 'nameTitle', 'body', 'submit'],
+  props: ['title', 'threads', 'replies', 'action', 'open', 'newThread', 'nameTitle', 'body', 'submit', 'pin', 'threadFixed', 'close'],
   data: function data() {
     return {
       threads_response: [],
+      logged: window.user || {},
       threads_to_save: {
         title: '',
         body: ''
@@ -600,19 +606,71 @@ var render = function() {
         _c(
           "tbody",
           _vm._l(_vm.threads_response.data, function(thread) {
-            return _c("tr", [
-              _c("td", [_vm._v(_vm._s(thread.id))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(thread.title))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(thread.replies_count))]),
-              _vm._v(" "),
-              _c("td", [
-                _c("a", { attrs: { href: "/threads/" + thread.id } }, [
-                  _vm._v(_vm._s(_vm.open))
-                ])
-              ])
-            ])
+            return _c(
+              "tr",
+              {
+                class: {
+                  "lime lighten-4": thread.fixed,
+                  "red lighten-4": thread.closed
+                }
+              },
+              [
+                _c("td", [_vm._v(_vm._s(thread.id))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(thread.title))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(thread.replies_count))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "/threads/" + thread.id,
+                        id: "btnOpenThread"
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.open))]
+                  ),
+                  _vm._v(" "),
+                  _vm.logged.role === "admin"
+                    ? _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/thread/pin/" + thread.id,
+                            id: "btnPinThread"
+                          }
+                        },
+                        [_vm._v(_vm._s(_vm.pin))]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.logged.role === "admin"
+                    ? _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/thread/close/" + thread.id,
+                            id: "btnCloseThread"
+                          }
+                        },
+                        [_vm._v(_vm._s(_vm.close))]
+                      )
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                thread.fixed
+                  ? _c("td", [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(_vm.threadFixed) +
+                          "\n                "
+                      )
+                    ])
+                  : _vm._e()
+              ]
+            )
           }),
           0
         )
@@ -645,7 +703,11 @@ var render = function() {
                   expression: "threads_to_save.title"
                 }
               ],
-              attrs: { type: "text", placeholder: _vm.nameTitle },
+              attrs: {
+                type: "text",
+                id: "idInputTitleThread",
+                placeholder: _vm.nameTitle
+              },
               domProps: { value: _vm.threads_to_save.title },
               on: {
                 input: function($event) {
@@ -689,7 +751,10 @@ var render = function() {
           _vm._v(" "),
           _c(
             "button",
-            { staticClass: "btn red accent-2", attrs: { type: "submit" } },
+            {
+              staticClass: "btn red accent-2",
+              attrs: { type: "submit", id: "btnSaveThread" }
+            },
             [_vm._v(_vm._s(_vm.submit))]
           )
         ]

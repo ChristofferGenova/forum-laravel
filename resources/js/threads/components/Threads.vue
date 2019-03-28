@@ -13,12 +13,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="thread in threads_response.data">
+                <tr v-for="thread in threads_response.data" :class="{ 'lime lighten-4': thread.fixed, 'red lighten-4': thread.closed }">
                     <td>{{ thread.id }}</td>
                     <td>{{ thread.title }}</td>
                     <td>{{ thread.replies_count }}</td>
                     <td>
-                        <a :href="'/threads/' + thread.id">{{ open }}</a>
+                        <a :href="'/threads/' + thread.id" id="btnOpenThread">{{ open }}</a>
+                        <a :href="'/thread/pin/' + thread.id" id="btnPinThread" v-if="logged.role === 'admin'">{{ pin }}</a>
+                        <a :href="'/thread/close/' + thread.id" id="btnCloseThread" v-if="logged.role === 'admin'">{{ close }}</a>
+                    </td>
+                    <td v-if="thread.fixed">
+                        {{ threadFixed }}
                     </td>
                 </tr>
                 </tbody>
@@ -30,14 +35,14 @@
 
             <form @submit.prevent="save()">
                 <div class="input-field">
-                    <input type="text" :placeholder="nameTitle" v-model="threads_to_save.title">
+                    <input type="text" id="idInputTitleThread" :placeholder="nameTitle" v-model="threads_to_save.title">
                 </div>
 
                 <div class="input-field">
                     <textarea id="idInputBodyThread" cols="30" rows="10" class="materialize-textarea" :placeholder="body" v-model="threads_to_save.body"></textarea>
                 </div>
 
-                <button type="submit" class="btn red accent-2">{{ submit }}</button>
+                <button type="submit" class="btn red accent-2" id="btnSaveThread">{{ submit }}</button>
             </form>
         </div>
     </div>
@@ -54,11 +59,15 @@
             'newThread',
             'nameTitle',
             'body',
-            'submit'
+            'submit',
+            'pin',
+            'threadFixed',
+            'close'
         ],
         data() {
             return {
                 threads_response: [],
+                logged: window.user || {},
                 threads_to_save: {
                     title: '',
                     body: ''
